@@ -1,10 +1,10 @@
-from .views import item_list, products, checkout
+from .views import checkout, HomeView, ItemDetailView
 from django.urls import path
 
 app_name = 'core'
 
 urlpatterns = [
-    path('', item_list, name="item_list"),
+    path('', HomeView.as_view(), name="item_list"),
     path('checkout/', checkout, name="checkout"),
-    path('product/', products, name="product"),
+    path('product/<slug>/detail/', ItemDetailView.as_view(), name="product"),
 ]

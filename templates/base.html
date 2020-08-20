@@ -12,7 +12,7 @@
   
   <!--Carousel Wrapper-->
   <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
-    {% if not request.path == '/product/' and not request.path == '/checkout/' %}
+    {% if not request.path == '/product/*' and not request.path == '/checkout/' %}
 
     <!--Indicators-->
     <ol class="carousel-indicators">

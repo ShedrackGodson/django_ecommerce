@@ -1,19 +1,18 @@
 from django.shortcuts import render
 from .models import Order, OrderItem, Item
+from django.views.generic import ListView, DetailView
 # from django.core.urlresolvers import resolve
 
 
-def item_list(request):
-    context = dict()
-    context["items"] = Item.objects.all()
-    return render(request, "home-page.html", context)
+class HomeView(ListView):
+    model = Item
+    template_name = "home-page.html"
 
 
-def products(request):
+class ItemDetailView(DetailView):
+    model = Item
+    template_name = "product-page.html"
 
-    return render(request, "product-page.html", {
-
-    })
 
 
 def checkout(request):

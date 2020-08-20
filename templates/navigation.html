@@ -25,7 +25,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'core:product' %}">Product</a>
+            <a class="nav-link waves-effect" href="{{ item.get_absolute_url }}">Product</a>
           </li>
           <li class="nav-item">
             <a class="nav-link waves-effect" href="{% url 'core:checkout' %}">Checkout</a>
