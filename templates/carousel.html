@@ -1,18 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-{% include "head.html" %}
-
-<body>
-
-  {% include "navigation.html" %}
-  <!-- Navbar -->
-
-  
   <!--Carousel Wrapper-->
   <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
-    {% if not request.path == '/product/' and not request.path == '/checkout/' %}
 
     <!--Indicators-->
     <ol class="carousel-indicators">
@@ -31,7 +18,7 @@
 
           <!-- Mask & flexbox options-->
           <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
-            
+
             <!-- Content -->
             <div class="text-center white-text mx-5 wow fadeIn">
               <h1 class="mb-4">
@@ -149,26 +136,6 @@
       <span class="sr-only">Next</span>
     </a>
     <!--/.Controls-->
-    {% endif %}
+
   </div>
   <!--/.Carousel Wrapper-->
-  
-
-  <!--Main layout-->
-  <main>
-    <div class="container">
-
-      {% block content %}
-        
-      {% endblock content %}
-
-    </div>
-  </main>
-  <!--Main layout-->
-
-{% include "footer.html" %}
-
-{% include "scripts.html" %}
-</body>
-
-</html>
