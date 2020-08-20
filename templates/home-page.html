@@ -85,7 +85,12 @@
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
+                  {% if item.discount_price %}
+                  <strong>{{ item.discount_price | intcomma }}$</strong>
+                  {% else %}
                   <strong>{{ item.price | intcomma }}$</strong>
+                  {% endif %}
+                  
                 </h4>
 
               </div>

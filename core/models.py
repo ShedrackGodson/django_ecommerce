@@ -19,9 +19,11 @@ LABEL = (
 class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
+    discount_price = models.FloatField(null=True, blank=True)
     category = models.CharField(max_length=2, choices=CATEGORY)
     label = models.CharField(max_length=1, choices=LABEL)
     slug = models.SlugField()
+    description = models.TextField()
 
     def __str__(self):
         return self.title
