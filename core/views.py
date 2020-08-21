@@ -141,9 +141,11 @@ def remove_single_item_from_cart(request, slug):
                 ordered=False
             )[0]
             # print("Exists.")
-
-            order_item.quantity -= 1
-            order_item.save()
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+            else:
+                order.item.remove(order_item)
             # messages.success(
             #     request, "This item quantity was updated.", fail_silently=False
             #     )
