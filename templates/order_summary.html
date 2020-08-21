@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container dark-grey-text mt-5" style="padding-bottom: 200px;">
     <div class="table-responsive text-nowrap">
+        {% include "messages.html" %}
         <h2>Order Summary</h2>
         <table class="table">
             <thead>
@@ -39,6 +40,11 @@
                     {% else %}
                     <td>{{ order_item.total_item_price|intcomma }}</td>
                     {% endif %}
+                    <td>
+                        <a style="color: red;" title="Remove All" href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>

@@ -105,6 +105,7 @@ def remove_from_cart(request, slug):
             messages.success(
                 request, "You have successfully removed an item from the cart.", fail_silently=False
                 )
+            return redirect("core:order-summary")
         
         else:
             # Adding a message saying that the order doesn't contain this OrderItem
