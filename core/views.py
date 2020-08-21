@@ -34,6 +34,9 @@ def add_to_cart(request, slug):
         if order.item.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
+        
+        else:
+            order.item.add((order_item))
 
     else:
         order = Order.objects.create(user=request.user, ordered_date=timezone.now())
