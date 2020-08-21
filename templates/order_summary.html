@@ -29,13 +29,35 @@
                     <td>{{ order_item.quantity }}</td>
                     {% if order_item.item.discount_price %}
                     <td>
-                    {{ order_item.total_item_discount_price|intcomma }}(Saving TZS {{ order_item.saving_amount }})
+                    {{ order_item.total_item_discount_price|intcomma }}
+                    <span class="badge badge-primary">Saving TZS {{ order_item.saving_amount }}</span>
                     </td>
                     {% else %}
                     <td>{{ order_item.total_item_price|intcomma }}</td>
                     {% endif %}
                 </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4"><strong style="font-weight: 700;">Your Cart is Empty!</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <a class="btn btn-primary float-right" href="/">Continue Shopping</a>
+                    </td>
+                </tr>
                 {% endfor %}
+                {% if object.get_total %}
+                <tr>
+                    <td colspan="4"><strong style="font-weight: 700;">Order Total</strong></td>
+                    <td>TZS {{ object.get_total|intcomma }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <a class="btn btn-warning float-right ml-2" href="/checkout/">Proceed Checkout</a>
+                        <a class="btn btn-primary float-right" href="/">Continue Shopping</a>
+                    </td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
 
