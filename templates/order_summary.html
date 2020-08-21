@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% block content %}
-<div class="container dark-grey-text mt-5" style="padding-bottom: 300px;">
+<div class="container dark-grey-text mt-5" style="padding-bottom: 200px;">
     <div class="table-responsive text-nowrap">
         <h2>Order Summary</h2>
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Title</th>
                     <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
@@ -15,13 +16,15 @@
                 </tr>
             </thead>
             <tbody>
+                {% for order_item in object.item.all %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <!-- <td>Cell</td> -->
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ order_item.item.title }}</td>
+                    <td>{{ order_item.item.price|intcomma }}</td>
+                    <td>{{ order_item.quantity }}</td>
+                    <td>{{ order_item..item.price|add:"order_item.quantity" }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
 

@@ -37,6 +37,11 @@ class Item(models.Model):
     
     def remove_from_cart_url(self):
         return reverse("core:remove-from-cart", kwargs={"slug": self.slug})
+    
+    class Meta:
+        ordering = [
+            "-id"
+        ]
 
 
 class OrderItem(models.Model):
@@ -48,6 +53,13 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
+    
+
+    def total_item_price(self)->int:
+        return self.quantity * self.item.price
+    
+    def total_item_discount_price(self)->int:
+        return self.quantity * self.item.discount_price
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
