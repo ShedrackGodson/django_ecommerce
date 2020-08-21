@@ -39,6 +39,9 @@ def add_to_cart(request, slug):
         if order.item.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
+            messages.success(
+                request, "This Item quantity is updated successfully.", fail_silently=False
+            )
         
         else:
             order.item.add((order_item))
@@ -81,14 +84,13 @@ def remove_from_cart(request, slug):
                 )
         
         else:
-            print("Doesn't Exists.")
             # Adding a message saying that the order doesn't contain this OrderItem
-            messages.error(request, "Your Order doesn't contains an Item.", fail_silently=False)
+            messages.info(request, "Your Order doesn't contains an Item.", fail_silently=False)
             return redirect("core:product", slug=slug)
 
     else:
         # Adding a message saying a user doesnt have an order
-        messages.error(request, "You don't seems to have an Order yet!.", fail_silently=False)
+        messages.info(request, "You don't seems to have an Order yet!.", fail_silently=False)
         return redirect("core:product", slug=slug)
 
     return redirect("core:product", slug=slug)
