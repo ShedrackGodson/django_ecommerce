@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Order, OrderItem, Item
 from django.views.generic import ListView, DetailView
+from django.utils import timezone
 # from django.core.urlresolvers import resolve
 
 
@@ -30,14 +31,12 @@ def add_to_cart(request, slug):
     if order_qs.exists():
         order = order_qs[0]
         # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
+        if order.item.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
 
     else:
-        order = Order.objects.create(user=request.user)
-        order.items.add(order_item)
+        order = Order.objects.create(user=request.user, ordered_date=timezone.now())
+        order.item.add(order_item)
     
-    return redirect("core:product", kwargs={
-        "slug": slug
-    })
+    return redirect("core:product", slug=slug)
