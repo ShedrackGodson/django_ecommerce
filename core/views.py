@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CheckoutForm
 # from django.core.urlresolvers import resolve
 
 
@@ -37,11 +38,18 @@ class ItemDetailView(LoginRequiredMixin, DetailView):
 
 
 
-def checkout(request):
+class CheckoutView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
     
-    return render(request, "checkout-page.html", {
-        
-    })
+        return render(self.request, "checkout-page.html", {
+            "form": CheckoutForm()
+        })
+    
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+        if form.is_valid():
+            print("The Form is Valid")
+            return redirect("core:checkout")
 
 
 @login_required
