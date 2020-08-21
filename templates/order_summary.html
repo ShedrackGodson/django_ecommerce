@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container dark-grey-text mt-5" style="padding-bottom: 300px;">
+    <div class="table-responsive text-nowrap">
+        <h2>Order Summary</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                    <!-- <th scope="col">Heading</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <!-- <td>Cell</td> -->
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock content %}
