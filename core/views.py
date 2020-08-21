@@ -8,6 +8,7 @@ from django.contrib import messages
 
 class HomeView(ListView):
     model = Item
+    paginate_by = 16
     template_name = "home-page.html"
 
 
