@@ -19,21 +19,22 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          {% comment %} <li class="nav-item active">
             <a class="nav-link waves-effect" href="/">Home
               <span class="sr-only">(current)</span>
-            </a>
+            </a> {% endcomment %}
           </li>
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link waves-effect" href="{{ item.get_absolute_url }}">Product</a>
-          </li>
+          </li> {% endcomment %}
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'core:checkout' %}">Checkout</a>
+            {% comment %} <a class="nav-link waves-effect" href="{% url 'core:checkout' %}">Checkout</a> {% endcomment %}
           </li>
         </ul>
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
+        {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link waves-effect">
               <span class="badge red z-depth-1 mr-1"> 1 </span>
@@ -41,6 +42,26 @@
               <span class="clearfix d-none d-sm-inline-block"> Cart </span>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{% url 'account_logout' %}" class="nav-link waves-effect">
+              <i class="fas fa-logout-user"></i>
+              <span class="clearfix d-none d-sm-inline-block"> Logout </span>
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="{% url 'account_login' %}" class="nav-link waves-effect">
+              <i class="fas fa-user"></i>
+              <span class="clearfix d-none d-sm-inline-block"> Login </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'account_signup' %}" class="nav-link waves-effect">
+              <i class="fas fa-"></i>
+              <span class="clearfix d-none d-sm-inline-block"> Signup </span>
+            </a>
+          </li>
+        {% endif %}
         </ul>
 
       </div>
