@@ -9,10 +9,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Price(TZS)</th>
                     <th scope="col">Quantity</th>
-                    <th scope="col">Total Price</th>
-                    <!-- <th scope="col">Heading</th> -->
+                    <th scope="col">Total Price(TZS)</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,9 +19,21 @@
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order_item.item.title }}</td>
-                    <td>{{ order_item.item.price|intcomma }}</td>
+                    <td>
+                    {% if order_item.item.discount_price %}
+                    <del>{{ order_item.item.price|intcomma }}</del> {{ order_item.item.discount_price|intcomma }}
+                    {% else %}
+                    {{ order_item.item.price|intcomma }}
+                    {% endif %}
+                    </td>
                     <td>{{ order_item.quantity }}</td>
-                    <td>{{ order_item..item.price|add:"order_item.quantity" }}</td>
+                    {% if order_item.item.discount_price %}
+                    <td>
+                    {{ order_item.total_item_discount_price|intcomma }}(Saving TZS {{ order_item.saving_amount }})
+                    </td>
+                    {% else %}
+                    <td>{{ order_item.total_item_price|intcomma }}</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

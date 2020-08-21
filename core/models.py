@@ -60,6 +60,9 @@ class OrderItem(models.Model):
     
     def total_item_discount_price(self)->int:
         return self.quantity * self.item.discount_price
+    
+    def saving_amount(self)->int:
+        return self.total_item_price() - self.total_item_discount_price()
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
