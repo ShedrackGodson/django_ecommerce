@@ -25,7 +25,11 @@ def checkout(request):
 
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
-    order_item = OrderItem.objects.create(item=item)
+    order_item, created = OrderItem.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
     if order_qs.exists():
@@ -42,4 +46,33 @@ def add_to_cart(request, slug):
         order = Order.objects.create(user=request.user, ordered_date=timezone.now())
         order.item.add(order_item)
     
+    return redirect("core:product", slug=slug)
+
+
+
+def remove_from_cart(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+        # check if the order item is in the order
+        if order.item.filter(item__slug=item.slug).exists():
+            order_item = OrderItem.objects.filter(
+                item=item,
+                user=request.user,
+                ordered=False
+            )[0]
+
+            order.item.remove((order_item))
+        
+        else:
+            # Adding a message saying that the order doesn't contain this OrderItem
+            return redirect("core:product", slug=slug)
+
+    else:
+        # Adding a message saying a user doesnt have an order
+       return redirect("core:product", slug=slug)
+
     return redirect("core:product", slug=slug)
