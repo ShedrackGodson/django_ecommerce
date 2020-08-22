@@ -98,8 +98,7 @@ class PaymentView(LoginRequiredMixin, View):
         order = Order.objects.get(user=self.request.user, ordered=False)
 
         token = self.request.POST.get('stripeToken')
-        amount = order.get_total() * 100 # Values are in Cents:
-
+        amount = int(order.get_total() * 100 ) # Values are in Cents:
 
         try:
             charge = stripe.Charge.create(
@@ -113,13 +112,16 @@ class PaymentView(LoginRequiredMixin, View):
             payment = Payment()
             payment.stripe_charge_id = charge['id']
             payment.user = self.request.user
-            payment.amount = amount
+            payment.amount = int(order.get_total() * 100)
             payment.save()
 
             # Assign Payment to the Order
             order.ordered = True
             order.payment = payment
             order.save()
+
+            messages.success(self.request, "Your order is successfully!", fail_silently=False)
+            return redirect("/")
 
         except stripe.error.CardError as e:
             # Since it's a decline, stripe.error.CardError will be caught
