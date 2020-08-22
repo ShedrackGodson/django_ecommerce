@@ -95,7 +95,9 @@ class CheckoutView(LoginRequiredMixin, View):
 
 class PaymentView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        return render(self.request, "payment.html",{})
+        return render(self.request, "payment.html",{
+            "order": Order.objects.get(user=self.request.user, ordered=False)
+        })
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
@@ -131,6 +133,7 @@ class PaymentView(LoginRequiredMixin, View):
             body = e.json_body
             err = body.get('error', {})
             messages.error(self.request, f"{err.get('message')}")
+            return redirect("/")
 
             # print('Status is: %s' % e.http_status)
             # print('Type is: %s' % e.error.type)
@@ -141,23 +144,30 @@ class PaymentView(LoginRequiredMixin, View):
         except stripe.error.RateLimitError as e:
             # Too many requests made to the API too quickly
             messages.error(self.request, "Rate limit error.")
+            return redirect("/")
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
-            messages.error(self.request, "Invalid Parameters.")
+            print(e)
+            messages.error(self.request, "Invalid Parameters.{}".format(e))
+            return redirect("/")
         except stripe.error.AuthenticationError as e:
             # Authentication with Stripe's API failed
             # (maybe you changed API keys recently)
             messages.error(self.request, "Failed to authenticate with Stripe.")
+            return redirect("/")
         except stripe.error.APIConnectionError as e:
             # Network communication with Stripe failed
             messages.error(self.request, "Failed Stripe API connection. Check out network connection.")
+            return redirect("/")
         except stripe.error.StripeError as e:
             # Display a very generic error to the user, and maybe send
             # yourself an email
             messages.error(self.request, "Something went wrong.")
+            return redirect("/")
         except Exception as e:
             # Send an email to myself
             messages.error(self.request, "A serious error occured. We've emailed you instructions.")
+            return redirect("/")
 
 
 @login_required
