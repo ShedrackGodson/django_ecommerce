@@ -18,12 +18,6 @@
         <!--Card-->
         <div class="card">
 
-          <!-- <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-          </form> -->
-
           <!--Card content-->
           <form method="POST" class="card-body">
             {% csrf_token %}
@@ -86,7 +80,7 @@
             <div class="d-block my-3">
               {% for value, name in form.fields.payment_option.choices %}
               <div class="custom-control custom-radio">
-                <input id="{{ name }}" name="paymentMethod" type="radio" class="custom-control-input" required>
+                <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
                 <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
               </div>
               {% endfor %}

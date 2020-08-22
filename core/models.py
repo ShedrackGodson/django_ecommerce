@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django_countries.fields import CountryField
+
 
 
 CATEGORY = (
@@ -76,6 +78,7 @@ class Order(models.Model):
     item = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add = True)
     ordered_date = models.DateTimeField()
+    billing_address = models.ForeignKey('BillingAddress', on_delete=models.SET_NULL,null=True,blank=True)
 
     def __str__(self):
             return self.user.username
@@ -86,3 +89,20 @@ class Order(models.Model):
             total += order_item.get_final_price()
         
         return total
+
+
+class BillingAddress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    street_address = models.CharField(max_length=100)
+    apartment_address = models.CharField(max_length=100)
+    country = CountryField(multiple=False)
+    zip_code = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        ordering = [
+            "-id"
+        ]
+    
