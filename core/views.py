@@ -72,6 +72,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 billing_address.save()
                 order.billing_address = billing_address
                 order.save()
+                # TODO: Add redirects to the selected payment options
                 return redirect("core:checkout")
 
             messages.warning(self.request, "Failed to checkout.", fail_silently=False)
@@ -81,6 +82,11 @@ class CheckoutView(LoginRequiredMixin, View):
             
             messages.warning(self.request, "You do not have an active order.", fail_silently=False)
             return redirect("core:order-summary")
+
+
+class PaymentView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        return render(self.request, "payment.html",{})
 
 
 @login_required

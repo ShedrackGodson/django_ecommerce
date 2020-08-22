@@ -1,5 +1,6 @@
 from django import forms
 from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 
 
 
@@ -10,12 +11,16 @@ PAYMENT_OPTION = (
 
 class CheckoutForm(forms.Form):
     street_address = forms.CharField(widget=forms.TextInput(attrs={
-        "placeholder": "123 Mount St"
+        "placeholder": "123 Mount St", "class": "form-control"
     }))
     appartment_address = forms.CharField(required=False, widget=forms.TextInput(attrs={
-        "placeholder": "Appartment or suite"
+        "placeholder": "Appartment or suite", "class": "form-control"
     }))
-    country = CountryField(blank_label='(select country)').formfield()
+    country = CountryField(blank_label='(select country)').formfield(
+        widget=CountrySelectWidget(attrs={
+            "class": "form-control"
+        })
+    )
     zip_code = forms.CharField(widget=forms.TextInput(attrs={
         "class": "form-control"
     }))
