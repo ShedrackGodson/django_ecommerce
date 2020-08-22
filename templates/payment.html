@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 <!--Main layout-->
+{% block extra_links %}
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock extra_links %}
 {% block custom_css %}
 <style>
     #stripeBtnLabel {
@@ -192,17 +195,6 @@
               </li>
             </ul>
             <!-- Cart -->
-    
-            <!-- Promo code -->
-            <form class="card p-2">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                  <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
-                </div>
-              </div>
-            </form>
-            <!-- Promo code -->
     
           </div>
     </div>

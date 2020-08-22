@@ -78,11 +78,14 @@ class CheckoutView(LoginRequiredMixin, View):
                 billing_address.save()
                 order.billing_address = billing_address
                 order.save()
-                # TODO: Add redirects to the selected payment options
-                return redirect("core:checkout")
-
-            messages.warning(self.request, "Failed to checkout.", fail_silently=False)
-            return redirect("core:checkout")
+                
+                if payment_option == 'S':
+                    return redirect("core:payment", payment_option="stripe")
+                elif payment_option == 'P':
+                    return redirect("core:payment", payment_option="paypal")
+                else:
+                    messages.warning(self.request, "Invalid payment option.", fail_silently=False)
+                    return redirect("core:checkout")
 
         except ObjectDoesNotExist:
             
@@ -112,7 +115,7 @@ class PaymentView(LoginRequiredMixin, View):
             payment = Payment()
             payment.stripe_charge_id = charge['id']
             payment.user = self.request.user
-            payment.amount = int(order.get_total() * 100)
+            payment.amount = int(order.get_total())
             payment.save()
 
             # Assign Payment to the Order

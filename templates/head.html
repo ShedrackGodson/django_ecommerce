@@ -12,7 +12,8 @@
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <!-- Your custom styles (optional) -->
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-  <script src="https://js.stripe.com/v3/"></script>
+  {% block extra_links %}
+  {% endblock extra_links %}
   <style type="text/css">
     html,
     body,
