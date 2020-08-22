@@ -71,7 +71,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 billing_address = BillingAddress(
                     user = self.request.user,
                     street_address = street_address,
-                    appartment_address = appartment_address,
+                    apartment_address = appartment_address,
                     country = country,
                     zip_code = zip_code
                 )
