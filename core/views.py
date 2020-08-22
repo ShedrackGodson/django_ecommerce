@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Order, OrderItem, Item
+from .models import Order, OrderItem, Item, BillingAddress
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
 from django.contrib import messages
@@ -47,18 +47,40 @@ class CheckoutView(LoginRequiredMixin, View):
     
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
-        print(self.request.POST)
-        if form.is_valid():
-            street_address = form.cleaned_data.get("street_address")
-            appartment_address = form.cleaned_data.get("appartment_address")
-            country = form.cleaned_data.get("country")
-            zip_code = form.cleaned_data.get("zip_code")
-            save_info = form.cleaned_data.get("save_info")
-            same_billing_address = form.cleaned_data.get("same_billing_address")
-            payment_option = form.cleaned_data.get("payment_option")
+        
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                street_address = form.cleaned_data.get("street_address")
+                appartment_address = form.cleaned_data.get("appartment_address")
+                country = form.cleaned_data.get("country")
+                zip_code = form.cleaned_data.get("zip_code")
+                # TODO : Adding the functionality for this fields 
+
+                # save_info = form.cleaned_data.get("save_info")
+                # same_shipping_address = form.cleaned_data.get("same_shipping_address")
+
+                payment_option = form.cleaned_data.get("payment_option")
+
+                billing_address = BillingAddress(
+                    user = self.request.user,
+                    street_address = street_address,
+                    appartment_address = appartment_address,
+                    country = country,
+                    zip_code = zip_code
+                )
+                billing_address.save()
+                order.billing_address = billing_address
+                order.save()
+                return redirect("core:checkout")
+
+            messages.warning(self.request, "Failed to checkout.", fail_silently=False)
             return redirect("core:checkout")
-        messages.warning(self.request, "Failed to checkout", fail_silently=False)
-        return redirect("core:checkout")
+
+        except ObjectDoesNotExist:
+            
+            messages.warning(self.request, "You do not have an active order.", fail_silently=False)
+            return redirect("core:order-summary")
 
 
 @login_required
