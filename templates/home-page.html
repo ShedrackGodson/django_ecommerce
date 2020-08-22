@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% block content %}
-    <div style="margin-top: 20px">{% include 'messages.html' %}</div>
+    <div style="margin-top: 75px">{% include 'messages.html' %}</div>
 
 <!--Navbar-->
       <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
@@ -64,7 +64,7 @@
 
               <!--Card image-->
               <div class="view overlay">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" class="card-img-top"
+                <img src="{{ item.picture.url }}" class="card-img-top"
                   alt="">
                 <a href="{{ item.get_absolute_url }}">
                   <div class="mask rgba-white-slight"></div>
